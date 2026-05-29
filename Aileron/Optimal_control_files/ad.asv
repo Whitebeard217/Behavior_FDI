@@ -1,0 +1,20 @@
+
+% Q and R parameters to adjust for a
+
+qa1=166;
+qa2=0;
+qa3=12.5;
+ra =1;
+%Q and R parameters to adjust for b
+% qb2=0;
+% qb1=1;
+% qb3=1;
+% rb =1;
+q2 = qa2;
+q1 = qa1;
+q3 = qa3;
+r = ra;
+% q2 = qb2;
+% q1 = qb1;
+% q3 = qb3;
+% r = rb;

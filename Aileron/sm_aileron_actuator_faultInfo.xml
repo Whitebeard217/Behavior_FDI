@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MF0 version="1.1" packageUris="http://schema.mathworks.com/mf0/faultinfo_datamodel/R2021a">
+  <faultinfo.FaultContainerSet type="faultinfo.FaultContainerSet" uuid="ead30539-95c8-4174-8cc7-14b403750c95">
+    <conditionals type="faultinfo.conditional.Conditional" uuid="1684ac1c-eded-45f2-bc4f-99086a4eb93c">
+      <condition>x == true</condition>
+      <mustBeLogged>false</mustBeLogged>
+      <name>SampleConditional</name>
+      <resyncRefBlkID></resyncRefBlkID>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+      <symbols type="faultinfo.conditional.ExpressionSymbol" uuid="7932e491-c00f-4282-9276-ed7a60ea3e7c">
+        <expression>true</expression>
+        <name>x</name>
+      </symbols>
+    </conditionals>
+    <faultContainers type="faultinfo.FaultContainer" uuid="ff659e12-5ead-4521-84f5-ca8a2954d5d6">
+      <activeFault type="faultinfo.SSFault" uuid="99bbc6f3-ce28-4cee-9175-fcb56fc61083"/>
+      <faultedEntityID>SSSubelement|sm_aileron_actuator:1923:1310|Damping</faultedEntityID>
+      <faultedEntityName>sm_aileron_actuator/Actuator/Electric/Leadscrew 1/Bearing Friction/Damping</faultedEntityName>
+      <faults type="faultinfo.SSFault" uuid="99bbc6f3-ce28-4cee-9175-fcb56fc61083">
+        <faultDescription></faultDescription>
+        <faultName>BearingFriction_timedFault</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="d011a89e-a94b-40b5-a2ed-1ab0332753cc">
+          <startTime>6.5</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>false</isEnabled>
+    </faultContainers>
+    <faultContainers type="faultinfo.FaultContainer" uuid="65664274-ffab-4575-a7e8-d514c3e4a6b5">
+      <activeFault type="faultinfo.SSFault" uuid="1fe2b4e4-a703-4c48-b8e5-0ed6f8cb04a4"/>
+      <faultedEntityID>SSSubelement|sm_aileron_actuator:1924:1310|Damping</faultedEntityID>
+      <faultedEntityName>sm_aileron_actuator/Actuator/Electric/Leadscrew 2/Bearing Friction/Damping</faultedEntityName>
+      <faults type="faultinfo.SSFault" uuid="1fe2b4e4-a703-4c48-b8e5-0ed6f8cb04a4">
+        <faultDescription></faultDescription>
+        <faultName>BearingFriction_timedFault</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="a041f6c3-4f9b-43f3-8fe6-c13214c3466c">
+          <startTime>7.0</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>false</isEnabled>
+    </faultContainers>
+    <faultContainers type="faultinfo.FaultContainer" uuid="6f279646-eea8-4289-9b5f-c8ff2e59e1d1">
+      <activeFault type="faultinfo.SSFault" uuid="da8400b8-1194-4cd0-b039-e074e13a8967"/>
+      <faultedEntityID>SSSubelement|sm_aileron_actuator:2349:1310|Damping</faultedEntityID>
+      <faultedEntityName>sm_aileron_actuator/Actuator/Electric/Leadscrew 3/Bearing Friction/Damping</faultedEntityName>
+      <faults type="faultinfo.SSFault" uuid="da8400b8-1194-4cd0-b039-e074e13a8967">
+        <faultDescription></faultDescription>
+        <faultName>BearingFriction_timedFault</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="8160e760-6f3e-42bb-beef-c8f6b1573609">
+          <startTime>8.5</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>false</isEnabled>
+    </faultContainers>
+    <isEnabled>true</isEnabled>
+    <lastUpdatedAt>2026-05-28T22:24:53</lastUpdatedAt>
+    <modelName>sm_aileron_actuator</modelName>
+    <modelUUID>2dcd7c20-585e-4ce0-9b88-4df82000ac62</modelUUID>
+  </faultinfo.FaultContainerSet>
+  <faultinfo.FailureModeContainer type="faultinfo.FailureModeContainer" uuid="ade06943-23cc-4aab-9b2e-0045a97189ef">
+    <failureModes type="faultinfo.FailureMode" uuid="cc64acb3-d5a8-4ce6-a548-703f49484b67">
+      <ID>1</ID>
+      <associatedFaults type="faultinfo.SSFault" uuid="99bbc6f3-ce28-4cee-9175-fcb56fc61083"/>
+      <faultSubsystemName>BearingFriction_fault</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <failureModes type="faultinfo.FailureMode" uuid="b5a9d5e5-cf40-42e4-a665-01aa7563341b">
+      <ID>2</ID>
+      <associatedFaults type="faultinfo.SSFault" uuid="1fe2b4e4-a703-4c48-b8e5-0ed6f8cb04a4"/>
+      <faultSubsystemName>BearingFriction_fault1</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <failureModes type="faultinfo.FailureMode" uuid="ba9bd95d-ac1b-45d7-99cc-18bfd95285b3">
+      <ID>3</ID>
+      <associatedFaults type="faultinfo.SSFault" uuid="da8400b8-1194-4cd0-b039-e074e13a8967"/>
+      <faultSubsystemName>BearingFriction_fault2</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <faultModelName>sm_aileron_actuator_FaultModel</faultModelName>
+    <faultModelUUID>316249a2-7f87-42b3-949a-dd47cdbfeade</faultModelUUID>
+  </faultinfo.FailureModeContainer>
+</MF0>

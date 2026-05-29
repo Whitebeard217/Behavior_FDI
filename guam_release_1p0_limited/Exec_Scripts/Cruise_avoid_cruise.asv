@@ -1,0 +1,100 @@
+%% sim parameters
+model = 'GUAM';
+% use timeseries input
+userStruct.variants.refInputType = 3; % 1=FOUR_RAMP, 2= ONE_RAMP, 3=Timeseries, 4=Default(doublets)
+%% Setup trajectory and pass to target
+time = [0; (5:0.5:10)';15]; % Preallocate enough time points, will trim later if needed
+
+% Parameters
+straight_length = 1000;   % Length of straight segments before and after curve
+curve_height = 80;      % Maximum height of the curve
+curve_length = 2800;     % Total length of the curved section
+bezier_points = 21;      % Number of points on Bezier curves
+
+% 1. First straight segment along x-axis, y=0
+x1 = linspace(0, straight_length, 2)'; % 21 Points
+y1 = zeros(size(x1));
+z1 = ones(size(x1));
+
+% 2. Bezier curve for the entire "hump"
+x_start_b = straight_length; %Starting X Position
+y_start_b = 0; %Starting Y Position
+
+% Control points for the Bezier curve (adjust these to change the shape)
+x_control1 = straight_length + curve_length / 4;  % 1/4 of way to endpoint
+y_control1 = curve_height / 2;   % Start curving upwards
+
+x_control2 = straight_length + 3 * curve_length / 4;  % closer to the end
+y_control2 = curve_height / 2;   % start moving down.
+
+x_end_b = straight_length + curve_length; % Reaching the x axis.
+y_end_b = 0; % End point of y axis
+
+
+t = linspace(0, 1, bezier_points)'; % Bezier parameter
+x2 = (1-t).^3 * x_start_b + 3*(1-t).^2.*t * x_control1 + 3*(1-t).*t.^2 * x_control2 + t.^3 * x_end_b;
+y2 = (1-t).^3 * y_start_b + 3*(1-t).^2.*t * y_control1 + 3*(1-t).*t.^2 * y_control2 + t.^3 * y_end_b;
+z2 = ones(size(x2));
+
+% 3. Second straight segment along x-axis, y=0
+x3 = linspace(straight_length + curve_length, straight_length*2 + curve_length, 2)';% Points
+y3 = zeros(size(x3));
+z3 = ones(size(x3));
+
+z1 = z1.*-1000;
+z2 = z2.*-1000;
+z3 = z3.*-1000;
+% Combine all segments into pos
+pos = [x1 y1 z1;
+       x2 y2 z2;
+       x3 y3 z3];
+
+% Adjust time vector to match pos
+if length(time) < size(pos,1)
+    time = [time; (time(end)+(0.5:0.5:(size(pos,1)-length(time))*0.5))'];
+end
+time = time(1:size(pos,1));
+
+
+
+% required_time_points = size(pos,1) - length(time); % Calculate additional time points needed
+% if required_time_points > 0
+%     additional_time = time(end) + (0.5 * (1:required_time_points))'; % Increment by 0.5 for additional points
+%     time = [time; additional_time]; % Append additional time points to match pos size
+% end
+%% Initialize variables based on pos size
+N_pos = size(pos, 1); % Use number of rows in pos instead of time
+vel = zeros(N_pos, 3);
+vel_i = zeros(N_pos, 3);
+chi = zeros(N_pos, 1); % Heading is a single column vector
+chid = zeros(N_pos, 1); % Heading rate is a single column vector
+
+%% Compute velocity
+vel_i(:,1) = gradient(pos(:,1)) ./ gradient(time);
+vel_i(:,2) = gradient(pos(:,2)) ./ gradient(time);
+vel_i(:,3) = gradient(pos(:,3)) ./ gradient(time);
+
+%% Compute heading
+chi = atan2(vel_i(:,2), vel_i(:,1));
+chid = gradient(chi) ./ gradient(time);
+
+%% Add stars library blocks for quaternion functions
+addpath(genpath('lib'));
+
+%% Compute velocity in heading frame
+q = QrotZ(chi);
+vel = Qtrans(q, vel_i);
+
+%% Setup trajectory to match bus
+RefInput.Vel_bIc_des    = timeseries(vel,time); % Heading frame velocity
+RefInput.pos_des        = timeseries(pos,time); % Inertial Position
+RefInput.chi_des        = timeseries(chi,time); % Heading Angle
+RefInput.chi_dot_des    = timeseries(chid,time); % Heading Angle Rate
+RefInput.vel_des        = timeseries(vel_i,time); % Inertial Position
+
+target.RefInput = RefInput;
+
+%% Prepare to run simulation
+% set initial conditions and add trajectory to SimInput
+simSetup;
+open(model);
